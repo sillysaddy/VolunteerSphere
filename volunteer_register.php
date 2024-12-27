@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $qualifications = $_POST['qualifications'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = $_POST['password'];
 
     $sql = "INSERT INTO volunteers (Name, Email, Phone, Qualifications, Password) VALUES ('$name', '$email', '$phone', '$qualifications', '$password')";
 
