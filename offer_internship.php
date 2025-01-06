@@ -50,17 +50,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offer Internship</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Offer Internship - VolunteerSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>Offer Internship</h1>
-        <p>You are offering an internship to: <strong><?php echo htmlspecialchars($volunteer['Name']); ?></strong></p>
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="internship_position" class="form-label">Select Internship Position</label>
-                <select name="internship_position" id="internship_position" class="form-select" required>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Offer Internship</h1>
+            <p class="text-gray-600">You are offering an internship to: 
+                <span class="font-semibold text-indigo-600"><?php echo htmlspecialchars($volunteer['Name']); ?></span>
+            </p>
+        </div>
+
+        <form action="" method="POST" class="mt-8 space-y-6">
+            <div>
+                <label for="internship_position" class="block text-sm font-medium text-gray-700 mb-2">
+                    Select Internship Position
+                </label>
+                <select name="internship_position" 
+                        id="internship_position" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
                     <option value="">Select a position</option>
                     <?php if ($internshipResult->num_rows > 0): ?>
                         <?php while ($internship = $internshipResult->fetch_assoc()): ?>
@@ -69,17 +83,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </option>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <option value="">No internship positions available</option>
+                        <option value="" disabled>No internship positions available</option>
                     <?php endif; ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Offer Internship</button>
-            <a href="org_dashboard.php" class="btn btn-secondary">Cancel</a>
+
+            <div class="flex gap-4 justify-center">
+                <button type="submit" 
+                        class="inline-flex justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Offer Internship
+                </button>
+                <a href="org_dashboard.php" 
+                   class="inline-flex justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                </a>
+            </div>
         </form>
     </div>
 </body>
 </html>
-
-
-
-

@@ -46,21 +46,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hire Volunteer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Hire Volunteer - VolunteerSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>Hire Volunteer</h1>
-        <p><strong>Name:</strong> <?php echo htmlspecialchars($volunteer['Name']); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($volunteer['Email']); ?></p>
-        <p><strong>Phone:</strong> <?php echo htmlspecialchars($volunteer['Phone']); ?></p>
-        <p><strong>Qualifications:</strong> <?php echo htmlspecialchars($volunteer['Qualifications']); ?></p>
-        <p><strong>Available for Emergency:</strong> <?php echo ($volunteer['EmergencyHelp'] == 1) ? 'Yes' : 'No'; ?></p>
-        <form method="POST" action="">
-            <p>Are you sure you want to hire this volunteer?</p>
-            <button type="submit" name="confirm" value="yes" class="btn btn-success">Yes, Hire</button>
-            <a href="org_dashboard.php" class="btn btn-danger">Cancel</a>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Hire Volunteer</h1>
+            <p class="text-gray-600 mb-8">Review volunteer details before confirming</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+            <div>
+                <h2 class="text-sm font-medium text-gray-500">Name</h2>
+                <p class="mt-1 text-lg text-gray-900"><?php echo htmlspecialchars($volunteer['Name']); ?></p>
+            </div>
+            <div>
+                <h2 class="text-sm font-medium text-gray-500">Email</h2>
+                <p class="mt-1 text-lg text-gray-900"><?php echo htmlspecialchars($volunteer['Email']); ?></p>
+            </div>
+            <div>
+                <h2 class="text-sm font-medium text-gray-500">Phone</h2>
+                <p class="mt-1 text-lg text-gray-900"><?php echo htmlspecialchars($volunteer['Phone']); ?></p>
+            </div>
+            <div>
+                <h2 class="text-sm font-medium text-gray-500">Qualifications</h2>
+                <p class="mt-1 text-lg text-gray-900"><?php echo htmlspecialchars($volunteer['Qualifications']); ?></p>
+            </div>
+            <div>
+                <h2 class="text-sm font-medium text-gray-500">Available for Emergency</h2>
+                <p class="mt-1 text-lg <?php echo ($volunteer['EmergencyHelp'] == 1) ? 'text-green-600' : 'text-red-600'; ?>">
+                    <?php echo ($volunteer['EmergencyHelp'] == 1) ? 'Yes' : 'No'; ?>
+                </p>
+            </div>
+        </div>
+
+        <form method="POST" action="" class="mt-8 space-y-6">
+            <div class="text-center">
+                <p class="text-gray-600 mb-4">Are you sure you want to hire this volunteer?</p>
+                <div class="flex gap-4 justify-center">
+                    <button type="submit" name="confirm" value="yes" 
+                            class="inline-flex justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Yes, Hire
+                    </button>
+                    <a href="org_dashboard.php" 
+                       class="inline-flex justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Cancel
+                    </a>
+                </div>
+            </div>
         </form>
     </div>
 </body>

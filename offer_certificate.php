@@ -42,24 +42,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offer Certificate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Offer Certificate - VolunteerSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>Offer Certificate</h1>
-        <p>You are offering a certificate to: <strong><?php echo htmlspecialchars($volunteer['Name']); ?></strong></p>
-        <form method="POST" action="">
-            <div class="mb-3">
-                <label for="description" class="form-label">Certificate Description</label>
-                <textarea name="description" id="description" class="form-control" rows="3" required></textarea>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Offer Certificate</h1>
+            <p class="text-gray-600">You are offering a certificate to: 
+                <span class="font-semibold text-indigo-600"><?php echo htmlspecialchars($volunteer['Name']); ?></span>
+            </p>
+        </div>
+
+        <form method="POST" action="" class="mt-8 space-y-6">
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                    Certificate Description
+                </label>
+                <textarea name="description" 
+                          id="description" 
+                          rows="4" 
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                          required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Offer Certificate</button>
-            <a href="org_dashboard.php" class="btn btn-secondary">Cancel</a>
+
+            <div class="flex gap-4 justify-center">
+                <button type="submit" 
+                        class="inline-flex justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Offer Certificate
+                </button>
+                <a href="org_dashboard.php" 
+                   class="inline-flex justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                </a>
+            </div>
         </form>
     </div>
 </body>
 </html>
-
-
-
