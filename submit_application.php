@@ -74,44 +74,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+    <div class="max-w-2xl w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
         <!-- Header -->
         <div class="text-center">
-            <h1 class="text-3xl font-bold text-gray-900 mb-4">Apply for Event</h1>
-            <p class="text-sm text-gray-600">Please review the event details below</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Apply for Event</h1>
+            <p class="text-lg text-gray-600">Please review the event details below</p>
         </div>
 
         <!-- Event Details -->
-        <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+        <div class="bg-gray-50 rounded-lg p-8 space-y-6">
             <div>
-                <h2 class="text-lg font-semibold text-gray-900">Organization</h2>
-                <p class="text-gray-700"><?php echo htmlspecialchars($event['OrgName']); ?></p>
+                <h2 class="text-xl font-semibold text-gray-900">Organization</h2>
+                <p class="text-lg text-gray-700 mt-2"><?php echo htmlspecialchars($event['OrgName']); ?></p>
             </div>
             
             <div>
-                <h2 class="text-lg font-semibold text-gray-900">Event Name</h2>
-                <p class="text-gray-700"><?php echo htmlspecialchars($event['EventName']); ?></p>
+                <h2 class="text-xl font-semibold text-gray-900">Event Name</h2>
+                <p class="text-lg text-gray-700 mt-2"><?php echo htmlspecialchars($event['EventName']); ?></p>
             </div>
             
             <div>
-                <h2 class="text-lg font-semibold text-gray-900">Description</h2>
-                <p class="text-gray-700"><?php echo htmlspecialchars($event['Description']); ?></p>
+                <h2 class="text-xl font-semibold text-gray-900">Description</h2>
+                <p class="text-lg text-gray-700 mt-2"><?php echo htmlspecialchars($event['Description']); ?></p>
             </div>
         </div>
 
         <!-- Confirmation Form -->
-        <form method="POST" action="" class="mt-8 space-y-6">
+        <form method="POST" action="" class="mt-10 space-y-6">
             <div class="text-center">
-                <p class="mb-4 text-gray-600">Are you sure you want to apply for this event?</p>
-                <div class="flex gap-4 justify-center">
+                <p class="text-xl text-gray-600 mb-8">Are you sure you want to apply for this event?</p>
+                <div class="flex gap-6 justify-center">
                     <button type="submit" 
                             name="confirm" 
                             value="yes" 
-                            class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                            class="inline-flex justify-center items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200 min-w-[150px]">
                         Yes, Apply Now
                     </button>
                     <a href="volunteer_dashboard.php" 
-                       class="inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                       class="inline-flex justify-center items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 min-w-[150px]">
                         Cancel
                     </a>
                 </div>
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <!-- Back Link -->
-        <div class="text-center mt-4">
+        <div class="text-center mt-6">
             <a href="volunteer_dashboard.php" 
                class="text-sm text-gray-600 hover:text-indigo-600 transition-colors duration-200">
                 ← Back to Dashboard

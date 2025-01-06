@@ -45,55 +45,85 @@ $emergencyRequestsResult = $conn->query($emergencyRequestsQuery);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        function showSection(sectionId) {
-            document.getElementById('volunteersSection').style.display = 'none';
-            document.getElementById('eventApplicationsSection').style.display = 'none';
-            document.getElementById('emergencyRequestsSection').style.display = 'none';
-
-            document.getElementById(sectionId).style.display = 'block';
-        }
-    </script>
+    <title>Organization Dashboard - VolunteerSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>
-            Welcome, <?php echo htmlspecialchars($_SESSION['user']); ?>!
-            <div class="float-end">
-                <button class="btn btn-primary" onclick="showSection('eventApplicationsSection')">Event Applications</button>
-                <button class="btn btn-warning" onclick="showSection('emergencyRequestsSection')">Emergency Requests</button>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-indigo-600">VolunteerSphere</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="logout.php" class="text-gray-600 hover:text-indigo-600 font-medium">Logout</a>
+                </div>
             </div>
-        </h1>
+        </div>
+    </nav>
 
-        <!-- List of Volunteers -->
-        <div id="volunteersSection">
-            <h2 class="mt-4">List of Volunteers</h2>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="mb-8 flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-gray-900">Welcome, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h1>
+            <div class="flex space-x-4">
+                <button onclick="showSection('volunteersSection')" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">Volunteers</button>
+                <button onclick="showSection('eventApplicationsSection')" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">Event Applications</button>
+                <button onclick="showSection('emergencyRequestsSection')" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors">Emergency Requests</button>
+            </div>
+        </div>
+
+        <!-- Volunteers Section -->
+        <div id="volunteersSection" class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Available Volunteers</h2>
             <form method="POST" action="hire_multiple_volunteers.php">
                 <?php if ($volunteerResult->num_rows > 0): ?>
-                    <div class="row">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <?php while ($volunteer = $volunteerResult->fetch_assoc()): ?>
-                            <div class="col-md-4">
-                                <div class="card mb-4">
-                                    <img src="<?php echo $volunteer['Picture'] ? $volunteer['Picture'] : ($volunteer['Gender'] === 'Male' ? 'images/male_silhouette.png' : 'images/female_silhouette.png'); ?>" 
-                                         class="card-img-top" alt="Volunteer Picture" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo htmlspecialchars($volunteer['Name']); ?></h5>
-                                        <p class="card-text">Email: <?php echo htmlspecialchars($volunteer['Email']); ?></p>
-                                        <p class="card-text">Phone: <?php echo htmlspecialchars($volunteer['Phone']); ?></p>
-                                        <p class="card-text">Qualifications: <?php echo htmlspecialchars($volunteer['Qualifications']); ?></p>
-                                        <p class="card-text">Available for Emergency: <?php echo ($volunteer['EmergencyHelp'] == 1) ? 'Yes' : 'No'; ?></p>
-
+                            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2"><?php echo htmlspecialchars($volunteer['Name']); ?></h3>
+                                    <div class="space-y-2 mb-4">
+                                        <p class="text-gray-600"><span class="font-medium">Email:</span> <?php echo htmlspecialchars($volunteer['Email']); ?></p>
+                                        <p class="text-gray-600"><span class="font-medium">Phone:</span> <?php echo htmlspecialchars($volunteer['Phone']); ?></p>
+                                        <p class="text-gray-600"><span class="font-medium">Qualifications:</span> <?php echo htmlspecialchars($volunteer['Qualifications']); ?></p>
+                                        <p class="text-gray-600">
+                                            <span class="font-medium">Emergency Help:</span>
+                                            <span class="<?php echo ($volunteer['EmergencyHelp'] == 1) ? 'text-green-600' : 'text-red-600'; ?>">
+                                                <?php echo ($volunteer['EmergencyHelp'] == 1) ? 'Available' : 'Not Available'; ?>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="space-y-3">
                                         <?php if ($volunteer['HiredStatus'] > 0): ?>
-                                            <button class="btn btn-secondary" disabled>Hired</button>
+                                            <button disabled class="w-full px-4 py-2 bg-gray-200 text-gray-500 rounded-md cursor-not-allowed">Already Hired</button>
                                         <?php else: ?>
-                                            <a href="hire_volunteer.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" class="btn btn-success mb-2">Hire</a>
-                                            <a href="offer_certificate.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" class="btn btn-info mb-2">Offer Certificate</a>
-                                            <a href="offer_internship.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" class="btn btn-warning mb-2">Offer Internship</a>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="selected_volunteers[]" value="<?php echo $volunteer['VolunteerID']; ?>" id="volunteer_<?php echo $volunteer['VolunteerID']; ?>">
-                                                <label class="form-check-label" for="volunteer_<?php echo $volunteer['VolunteerID']; ?>">
+                                            <a href="hire_volunteer.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" 
+                                               class="block w-full px-4 py-2 bg-green-600 text-white text-center rounded-md hover:bg-green-700 transition-colors">
+                                                Hire
+                                            </a>
+                                            <div class="flex space-x-2">
+                                                <a href="offer_certificate.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" 
+                                                   class="flex-1 px-4 py-2 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700 transition-colors">
+                                                    Certificate
+                                                </a>
+                                                <a href="offer_internship.php?VolunteerID=<?php echo $volunteer['VolunteerID']; ?>" 
+                                                   class="flex-1 px-4 py-2 bg-yellow-500 text-white text-center rounded-md hover:bg-yellow-600 transition-colors">
+                                                    Internship
+                                                </a>
+                                            </div>
+                                            <div class="flex items-center space-x-2 mt-2">
+                                                <input type="checkbox" 
+                                                       name="selected_volunteers[]" 
+                                                       value="<?php echo $volunteer['VolunteerID']; ?>" 
+                                                       id="volunteer_<?php echo $volunteer['VolunteerID']; ?>"
+                                                       class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                                <label for="volunteer_<?php echo $volunteer['VolunteerID']; ?>" class="text-sm text-gray-600">
                                                     Select for Multiple Hire
                                                 </label>
                                             </div>
@@ -103,84 +133,102 @@ $emergencyRequestsResult = $conn->query($emergencyRequestsQuery);
                             </div>
                         <?php endwhile; ?>
                     </div>
-                    <button type="submit" name="hire_multiple" class="btn btn-primary">Hire Selected Volunteers</button>
+                    <div class="mt-6">
+                        <button type="submit" name="hire_multiple" class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                            Hire Selected Volunteers
+                        </button>
+                    </div>
                 <?php else: ?>
-                    <p>No volunteers are currently available.</p>
+                    <p class="text-gray-600">No volunteers are currently available.</p>
                 <?php endif; ?>
             </form>
         </div>
 
-        <!-- Event Applications -->
-        <div id="eventApplicationsSection" style="display: none;">
-            <h2 class="mt-4">Event Applications</h2>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Volunteer Name</th>
-                        <th>Event Name</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($application = $eventApplicationsResult->fetch_assoc()): ?>
+        <!-- Event Applications Section -->
+        <div id="eventApplicationsSection" class="hidden bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Event Applications</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <td><?php echo htmlspecialchars($application['VolunteerName']); ?></td>
-                            <td><?php echo htmlspecialchars($application['EventName']); ?></td>
-                            <td><?php echo htmlspecialchars($application['Status']); ?></td>
-                            <td>
-                                <?php if ($application['Status'] === 'Pending'): ?>
-                                    <a href="approve_application.php?id=<?php echo $application['ApplicationID']; ?>&action=approve" class="btn btn-success btn-sm">Approve</a>
-                                    <a href="approve_application.php?id=<?php echo $application['ApplicationID']; ?>&action=reject" class="btn btn-danger btn-sm">Reject</a>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary btn-sm" disabled><?php echo $application['Status']; ?></button>
-                                <?php endif; ?>
-                            </td>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volunteer Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php while ($application = $eventApplicationsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($application['VolunteerName']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($application['EventName']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($application['Status']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <?php if ($application['Status'] === 'Pending'): ?>
+                                        <div class="flex space-x-2">
+                                            <a href="approve_application.php?id=<?php echo $application['ApplicationID']; ?>&action=approve" 
+                                               class="text-green-600 hover:text-green-900">Approve</a>
+                                            <a href="approve_application.php?id=<?php echo $application['ApplicationID']; ?>&action=reject" 
+                                               class="text-red-600 hover:text-red-900">Reject</a>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-gray-500"><?php echo $application['Status']; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Emergency Requests -->
-        <div id="emergencyRequestsSection" style="display: none;">
-            <h2 class="mt-4">Emergency Requests</h2>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Volunteer Name</th>
-                        <th>Support Tool</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($request = $emergencyRequestsResult->fetch_assoc()): ?>
+        <!-- Emergency Requests Section -->
+        <div id="emergencyRequestsSection" class="hidden bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Emergency Requests</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <td><?php echo htmlspecialchars($request['VolunteerName']); ?></td>
-                            <td><?php echo htmlspecialchars($request['SupportTool']); ?></td>
-                            <td><?php echo htmlspecialchars($request['Status']); ?></td>
-                            <td>
-                                <?php if ($request['Status'] === 'Pending'): ?>
-                                    <a href="approve_request.php?id=<?php echo $request['RequestID']; ?>&action=approve" class="btn btn-success btn-sm">Approve</a>
-                                    <a href="approve_request.php?id=<?php echo $request['RequestID']; ?>&action=reject" class="btn btn-danger btn-sm">Reject</a>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary btn-sm" disabled><?php echo $request['Status']; ?></button>
-                                <?php endif; ?>
-                            </td>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volunteer Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Support Tool</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php while ($request = $emergencyRequestsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($request['VolunteerName']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($request['SupportTool']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($request['Status']); ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <?php if ($request['Status'] === 'Pending'): ?>
+                                        <div class="flex space-x-2">
+                                            <a href="approve_request.php?id=<?php echo $request['RequestID']; ?>&action=approve" 
+                                               class="text-green-600 hover:text-green-900">Approve</a>
+                                            <a href="approve_request.php?id=<?php echo $request['RequestID']; ?>&action=reject" 
+                                               class="text-red-600 hover:text-red-900">Reject</a>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-gray-500"><?php echo $request['Status']; ?></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <a href="logout.php" class="btn btn-danger mt-3">Logout</a>
     </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('volunteersSection').classList.add('hidden');
+            document.getElementById('eventApplicationsSection').classList.add('hidden');
+            document.getElementById('emergencyRequestsSection').classList.add('hidden');
+            
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
-
-
-
-
-
-
