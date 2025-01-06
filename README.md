@@ -1,2 +1,0 @@
-# VolunteerSphere
-Emergency Voolunteer Management
