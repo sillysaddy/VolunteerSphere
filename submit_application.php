@@ -66,23 +66,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Event</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Apply for Event - VolunteerSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1>Apply for Event</h1>
-        <p><strong>Organization:</strong> <?php echo htmlspecialchars($event['OrgName']); ?></p>
-        <p><strong>Event Name:</strong> <?php echo htmlspecialchars($event['EventName']); ?></p>
-        <p><strong>Description:</strong> <?php echo htmlspecialchars($event['Description']); ?></p>
-        <form method="POST" action="">
-            <p>Are you sure you want to apply for this event?</p>
-            <button type="submit" name="confirm" value="yes" class="btn btn-success">Yes, Apply</button>
-            <a href="volunteer_dashboard.php" class="btn btn-danger">Cancel</a>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Apply for Event</h1>
+            <p class="text-sm text-gray-600">Please review the event details below</p>
+        </div>
+
+        <!-- Event Details -->
+        <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900">Organization</h2>
+                <p class="text-gray-700"><?php echo htmlspecialchars($event['OrgName']); ?></p>
+            </div>
+            
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900">Event Name</h2>
+                <p class="text-gray-700"><?php echo htmlspecialchars($event['EventName']); ?></p>
+            </div>
+            
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900">Description</h2>
+                <p class="text-gray-700"><?php echo htmlspecialchars($event['Description']); ?></p>
+            </div>
+        </div>
+
+        <!-- Confirmation Form -->
+        <form method="POST" action="" class="mt-8 space-y-6">
+            <div class="text-center">
+                <p class="mb-4 text-gray-600">Are you sure you want to apply for this event?</p>
+                <div class="flex gap-4 justify-center">
+                    <button type="submit" 
+                            name="confirm" 
+                            value="yes" 
+                            class="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Yes, Apply Now
+                    </button>
+                    <a href="volunteer_dashboard.php" 
+                       class="inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Cancel
+                    </a>
+                </div>
+            </div>
         </form>
+
+        <!-- Back Link -->
+        <div class="text-center mt-4">
+            <a href="volunteer_dashboard.php" 
+               class="text-sm text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                ← Back to Dashboard
+            </a>
+        </div>
     </div>
 </body>
 </html>
-
-
-
